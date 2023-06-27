@@ -17,6 +17,5 @@ db_user_name: test_user
 db_user_password: Kenshirou913!
 db_name: test_db
 
-##WordPress URL
-wordpress_url: https://ja.wordpress.org/latest-ja.tar.gz
-db_host: localhost
+##dokcer-compose URL
+dokcer-compose_url: https://github.com/docker/compose/releases/download/1.28.2/docker-compose-$(uname -s)-$(uname -m)
