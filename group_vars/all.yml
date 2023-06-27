@@ -1,0 +1,22 @@
+---
+##create user
+user_name: test1
+user_password: Test1!
+#user_groups: test1
+
+##change hostname
+host_name: test-web01
+
+##Apache
+serveradmin: test@example.com
+domain_name: test.com
+
+##MySQL
+root_password: Testtest991!
+db_user_name: test_user
+db_user_password: Kenshirou913!
+db_name: test_db
+
+##WordPress URL
+wordpress_url: https://ja.wordpress.org/latest-ja.tar.gz
+db_host: localhost

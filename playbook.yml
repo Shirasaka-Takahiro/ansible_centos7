@@ -1,0 +1,18 @@
+---
+- hosts: target_hosts
+  become: true
+  user: vagrant
+  roles:
+    - access_test
+    - common/yum_update
+    - common/firewalld
+    - common/hostname
+    - common/selinux
+    - common/swap
+    - common/timezone
+    - common/tools
+    - common/user_add
+    - httpd
+    - mysql
+    - php
+    - wordpress

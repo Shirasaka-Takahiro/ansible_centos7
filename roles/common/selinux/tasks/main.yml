@@ -1,0 +1,13 @@
+---
+##install selinux library
+- name: install libselinux-python
+  yum:
+    name: libselinux-python
+    state: present
+
+##disable SELinux
+- name: disable selinux
+  selinux: 
+    state: disabled
+  register: selinux
+  ignore_errors: yes

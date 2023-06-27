@@ -1,0 +1,65 @@
+---
+- name: install RPM-GPG-KEY-mysql
+  rpm_key:
+    key: https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+    state: present
+
+- name: install repository for mysql
+  yum:
+    name: https://repo.mysql.com//mysql80-community-release-el7-7.noarch.rpm
+    state: present
+  ignore_errors: yes
+
+- name: install optional packages
+  yum:
+    name: 
+      - MySQL-python
+    state: present
+
+- name: install mysql community devel
+  yum:
+    name: mysql-community-devel*
+    state: present
+
+- name: install mysql community server
+  yum:
+    name: mysql-community-server*
+    state: present
+
+- name: start mysqld
+  service:
+    name: mysqld
+    state: started
+    enabled: yes
+  ignore_errors: yes
+
+- name: copy my.cnf
+  copy:
+    src: ../templates/my.cnf
+    dest: /etc
+  notify:
+    - restart mysqld
+
+- name: get root password
+  shell: "grep 'A temporary password is generated for root@localhost' /var/log/mysqld.log | awk -F ' ' '{print $(NF)}'"
+  register: org_root_password
+
+- name: update expired root user password
+  command: mysql --user root --password={{ org_root_password.stdout }} --connect-expired-password --execute="ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '{{ root_password }}';"
+
+- name: create mysql user
+  mysql_user:
+    login_user: root
+    login_password: "{{ root_password }}"
+    name: "{{ db_user_name }}"
+    password: "{{ db_user_password }}"
+    priv: "*.*:ALL"
+    host: localhost
+    state: present
+
+- name: create mysql database
+  mysql_db:
+    login_user: root
+    login_password: "{{ root_password }}"
+    name: "{{ db_name }}"
+    state: present

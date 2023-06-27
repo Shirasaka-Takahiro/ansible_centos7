@@ -1,0 +1,31 @@
+---
+- name: install epel and remi repository
+  yum:
+    name:
+      - https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+      - http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+    disable_gpg_check: yes
+
+- name: install php
+  yum: 
+    name: "{{item}}" 
+    state: present
+    enablerepo: remi-php74
+  with_items:
+    - php
+    - php-cli
+    - php-devel
+    - php-common
+    - php-json
+    - php-xml
+    - php-mbstring
+    - php-pdo
+    - php-gd
+    - php-process
+    - php-intl
+    - php-mysql
+
+- name: copy php.ini
+  copy:
+    src: ../templates/php.ini
+    dest: /etc
