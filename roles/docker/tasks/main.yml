@@ -1,13 +1,4 @@
 ---
-#- name: install repository for docker
-#  yum_repository:
-#    name: docker-ce
-#    description: Docker CE Repository
-#    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
-#    enabled: yes
-#    gpgcheck: yes
-#    gpgkey: https://download.docker.com/linux/centos/gpg
-
 - name: install packages
   yum: 
     name: "{{item}}" 
