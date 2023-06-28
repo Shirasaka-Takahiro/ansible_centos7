@@ -1,12 +1,12 @@
 ---
-- name: install repository for docker
-  yum_repository:
-    name: docker-ce
-    description: Docker CE Repository
-    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
-    enabled: yes
-    gpgcheck: yes
-    gpgkey: https://download.docker.com/linux/centos/gpg
+#- name: install repository for docker
+#  yum_repository:
+#    name: docker-ce
+#    description: Docker CE Repository
+#    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+#    enabled: yes
+#    gpgcheck: yes
+#    gpgkey: https://download.docker.com/linux/centos/gpg
 
 - name: install packages
   yum: 
@@ -15,26 +15,33 @@
   with_items:
     - yum-utils
 
+- name: install repository for docker
+  command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+- name: enable repository
+  command: yum-config-manager --enable docker-ce-edge
+
 - name: install docker
   yum: 
-    name: "{{item}}" 
+    name: "{{item}}"
     state: present
-    enablerepo: docker-ce
   with_items:
     - docker-ce
     - docker-ce-cli
     - containerd.io
     - docker-compose-plugin
+    - python3-pip
+
 
 - name: start and enable docker
   service:
-    name: dokcer
+    name: docker
     state: started
     enabled: yes
 
 - name: get url for docker-compose
   get_url:
-    url: "{{ dokcer-compose_url }}"
+    url: "{{ docker_compose_url }}"
     dest: /usr/local/bin/docker-compose
 
 - name: add an execution permission

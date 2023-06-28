@@ -1,4 +1,14 @@
 ---
+- name: remove mariadb
+  yum:
+    name: mariadb-libs
+    state: absent
+
+- name: remove default mysql-community
+  yum:
+    name: mysql-community-*
+    state: absent
+
 - name: install RPM-GPG-KEY-mysql
   rpm_key:
     key: https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
@@ -14,6 +24,7 @@
   yum:
     name: 
       - MySQL-python
+      - expect
     state: present
 
 - name: install mysql community devel
@@ -31,7 +42,6 @@
     name: mysqld
     state: started
     enabled: yes
-  ignore_errors: yes
 
 - name: copy my.cnf
   copy:
@@ -40,26 +50,13 @@
   notify:
     - restart mysqld
 
-- name: get root password
-  shell: "grep 'A temporary password is generated for root@localhost' /var/log/mysqld.log | awk -F ' ' '{print $(NF)}'"
-  register: org_root_password
+- name: put mysql_secure_installation_script
+  template:
+    src: ../templates/mysql_secure_installation_script
+    dest: /tmp
+    owner: root
+    group: root
+    mode: 0755
 
-- name: update expired root user password
-  command: mysql --user root --password={{ org_root_password.stdout }} --connect-expired-password --execute="ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '{{ root_password }}';"
-
-- name: create mysql user
-  mysql_user:
-    login_user: root
-    login_password: "{{ root_password }}"
-    name: "{{ db_user_name }}"
-    password: "{{ db_user_password }}"
-    priv: "*.*:ALL"
-    host: localhost
-    state: present
-
-- name: create mysql database
-  mysql_db:
-    login_user: root
-    login_password: "{{ root_password }}"
-    name: "{{ db_name }}"
-    state: present
+- name: exec mysql_secure_installation_script
+  shell: "/tmp/mysql_secure_installation_script"

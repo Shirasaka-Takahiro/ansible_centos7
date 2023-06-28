@@ -13,9 +13,6 @@ domain_name: test.com
 
 ##MySQL
 root_password: Testtest991!
-db_user_name: test_user
-db_user_password: Kenshirou913!
-db_name: test_db
 
 ##dokcer-compose URL
-dokcer-compose_url: https://github.com/docker/compose/releases/download/1.28.2/docker-compose-$(uname -s)-$(uname -m)
+docker_compose_url: https://github.com/docker/compose/releases/download/1.24.1/docker-compose-Linux-x86_64
