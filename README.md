@@ -3,10 +3,11 @@
 # What this repository contains
 1. common(yum update,swap,SELinux,firewalld,hostname,Timezone,useradd) 
 2. httpd
-3. MySQL
-4. PHP
-5. Zabbix
-6. Docker
+3. Nginx
+4. MySQL
+5. PHP
+6. Zabbix-agent
+7. Docker
 
 # How to run
 1. Copy private key to a file in kyes directroy 

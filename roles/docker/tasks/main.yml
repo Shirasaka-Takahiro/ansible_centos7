@@ -6,10 +6,10 @@
   with_items:
     - yum-utils
 
-- name: install repository for docker
+- name: install docker repository
   command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
-- name: enable repository
+- name: enable docker repository
   command: yum-config-manager --enable docker-ce-edge
 
 - name: install docker
@@ -22,7 +22,6 @@
     - containerd.io
     - docker-compose-plugin
     - python3-pip
-
 
 - name: start and enable docker
   service:

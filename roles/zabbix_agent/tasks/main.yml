@@ -1,0 +1,20 @@
+---
+#- name: install zabbix repository
+#  yum:
+#    name: "{{ zabbix_repository_url }}"
+#    state: present
+
+- name: Install EPEL repository
+  yum:
+    name: epel-release
+    state: present
+
+- name: install zabbix agent package
+  yum:
+    name: zabbix-agent 
+
+- name: start and enable zabbix agent
+  service:
+    name: zabbix-agent
+    state: started
+    enabled: yes
