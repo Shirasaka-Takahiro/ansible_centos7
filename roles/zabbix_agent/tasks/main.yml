@@ -1,9 +1,4 @@
 ---
-#- name: install zabbix repository
-#  yum:
-#    name: "{{ zabbix_repository_url }}"
-#    state: present
-
 - name: Install EPEL repository
   yum:
     name: epel-release
@@ -18,3 +13,17 @@
     name: zabbix-agent
     state: started
     enabled: yes
+
+- name: modify zabbix-agent.conf
+  lineinfile:
+    dest: /etc/zabbix_agentd.conf
+    state: present
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: "Server=127.0.0.1" ,line: "Server={{ zabbix_server_ip | default('127.0.0.1', true) }}" }
+    - { regexp: "ServerActive=127.0.0.1" ,line: "ServerActive={{ zabbix_server_ip | default('127.0.0.1', true) }}" }
+    - { regexp: "Hostname=Zabbix server" ,line:  "Hostname={{ host_name }}" }
+  notify:
+    - restart zabbix_agent
+ 
