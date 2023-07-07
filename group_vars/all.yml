@@ -22,3 +22,6 @@ zabbix_repository_url: https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-r
 
 ##zabbix server IP
 zabbix_server_ip: 192.168.33.80
+
+##zabbix mysql pass
+zabbix_dbpass: Zabbixmysql991!
