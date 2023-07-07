@@ -24,6 +24,7 @@
     - php-process
     - php-intl
     - php-mysql
+    - php-fpm
 
 - name: copy php.ini
   copy:
