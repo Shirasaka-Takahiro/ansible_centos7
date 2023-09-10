@@ -9,7 +9,7 @@ host_name: test-web01
 
 ##Apache
 serveradmin: test@example.com
-domain_name: test.com
+domain_name: onya-lab.site
 
 ##MySQL
 root_password: Testtest991!

@@ -25,6 +25,6 @@
 - name: copy vhost.conf
   template:
     src: ../templates/vhost.conf.j2
-    dest: /etc/httpd/conf.d/{{ domain_name }}.conf
+    dest: /etc/httpd/conf.d/00_{{ domain_name }}.conf
   notify:
     - restart httpd

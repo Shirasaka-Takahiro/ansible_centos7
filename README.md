@@ -14,3 +14,6 @@
 2. Change group_vars,user,Keys,playbook.yml,hosts,vhosts
 3. Dry run with "ansible-playbook --private-key {PATH} -i {PATH} hosts {PATH} -C"
 4. Run with "ansible-playbook --private-key {PATH} -i {PATH} hosts {PATH}"
+
+# EXAMPLE
+ansible-playbook --private-key /home/takahiro/ansible/ansible_centos7/keys/user.key -i /home/takahiro/ansible/ansible_centos7/hosts /home/takahiro/ansible/ansible_centos7/playbook.yml
