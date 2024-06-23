@@ -9,9 +9,14 @@
     name: mysql-community-*
     state: absent
 
-- name: install RPM-GPG-KEY-mysql
+- name: install RPM-GPG-KEY-mysql-2022
   rpm_key:
     key: https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+    state: present
+
+- name: install RPM-GPG-KEY-mysql-2023
+  rpm_key:
+    key: https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
     state: present
 
 - name: install repository for mysql

@@ -1,21 +1,22 @@
 ---
 - hosts: target_hosts
   become: true
-  user: ec2-user
+  user: ansible-user
   roles:
     #- access_test
     #- common/yum_update
     #- common/firewalld
-    - common/hostname
+    #- common/hostname
     #- common/selinux
     #- common/swap
     #- common/timezone
     #- common/tools
     #- common/user_add
-    - httpd
+    #- httpd
     #- nginx
     #- mysql
-    #- php
+    - php
     #- docker
     #- zabbix_agent
     #- zabbix_agent/zabbix_agent_mysql
+    #- get_process_netstat

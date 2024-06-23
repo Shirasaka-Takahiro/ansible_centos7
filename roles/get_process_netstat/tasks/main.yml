@@ -1,0 +1,56 @@
+---
+- name: Set fact with custom date format
+  set_fact:
+    custom_date_format: "{{ ansible_date_time.date | regex_replace('-', '') }}"
+
+- name: get ps_command file
+  shell: "ps -efH --no-headers | awk '($3!=0)' | awk '($3!=2)' | awk '{print $8}' | sort | uniq > /var/tmp/ps-command_{{ custom_date_format }}"
+
+- name: Check if ps_command file exists
+  stat:
+    path: "/var/tmp/ps-command_{{ custom_date_format }}"
+  register: ps_command_file
+
+- name: Fail if ps_command file does not exist
+  fail:
+    msg: "ps_command file does not exist!"
+  when: ps_command_file.stat.exists == false
+
+- name: get ps_command_origin file
+  shell: "ps auxwwf > /var/tmp/ps-command_origin_{{ custom_date_format }}"
+
+- name: Check if ps_command_origin file exists
+  stat:
+    path: "/var/tmp/ps-command_origin_{{ custom_date_format }}"
+  register: ps_command_origin_file
+
+- name: Fail if ps_command_origin file does not exist
+  fail:
+    msg: "ps_command_origin file does not exist!"
+  when: ps_command_origin_file.stat.exists == false
+
+- name: get net file
+  shell: "netstat -lntp | grep 'tcp' | awk -F '/' '{print $2}' | sort | uniq -c > /var/tmp/net_{{ custom_date_format }}"
+
+- name: Check if net file exists
+  stat:
+    path: "/var/tmp/net_{{ custom_date_format }}"
+  register: net_file
+
+- name: Fail if net file does not exist
+  fail:
+    msg: "net file does not exist!"
+  when: net_file.stat.exists == false
+
+- name: get net_origin file
+  shell: "netstat -lntp > /var/tmp/net_origin_{{ custom_date_format }}"
+
+- name: Check if net_origin file exists
+  stat:
+    path: "/var/tmp/net_origin_{{ custom_date_format }}"
+  register: net_origin_file
+
+- name: Fail if net_origin file does not exist
+  fail:
+    msg: "net_origin file does not exist!"
+  when: net_origin_file.stat.exists == false
